@@ -17,14 +17,15 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import br.edu.ifcvideira.DAOs.UsuarioDao;
+import br.edu.ifcvideira.DAOs.UsuarioDAO;
 import br.edu.ifcvideira.beans.Usuario;
 import java.awt.Color;
+import java.awt.SystemColor;
 
 public class CadastraUsuarioView extends JFrame {
 	
 	Usuario user = new Usuario();
-	UsuarioDao userDAO = new UsuarioDao();
+	UsuarioDAO userDAO = new UsuarioDAO();
 
 	long time = System.currentTimeMillis();
 	Timestamp timestamp = new Timestamp(time);
@@ -54,7 +55,7 @@ public class CadastraUsuarioView extends JFrame {
 	 * Create the frame.
 	 */
 	public CadastraUsuarioView() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\rafac\\Desktop\\logo rafa.png"));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(CadastraUsuarioView.class.getResource("/br/edu/ifcvideira/imgs/engrenagem.png")));
 		setTitle("RC - Cadastro");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(500, 200, 403, 327);
@@ -167,7 +168,7 @@ public class CadastraUsuarioView extends JFrame {
 		tfEmail.setColumns(10);
 		
 		JPanel panel = new JPanel();
-		panel.setBackground(new Color(0, 102, 0));
+		panel.setBackground(SystemColor.inactiveCaptionText);
 		panel.setBounds(0, 0, 387, 59);
 		contentPane.add(panel);
 	}

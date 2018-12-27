@@ -3,6 +3,7 @@ package br.edu.ifcvideira.controllers.views;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.SystemColor;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -14,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -34,11 +37,9 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
-import br.edu.ifcvideira.DAOs.CategoriaDao;
-import br.edu.ifcvideira.DAOs.ProdutoDao;
+import br.edu.ifcvideira.DAOs.CategoriaDAO;
+import br.edu.ifcvideira.DAOs.ProdutoDAO;
 import br.edu.ifcvideira.beans.Produto;
-import java.awt.Window.Type;
-import java.awt.Toolkit;
 
 public class CadastraProdutos extends JFrame {
 
@@ -48,13 +49,12 @@ public class CadastraProdutos extends JFrame {
 	private JTextField textPNome;
 	private JTextField textPCodigo;
 	private JTable table;
-
 	private List<Object> produto = new ArrayList<Object>();
-	private List<Object> categoriaObj = new ArrayList<Object>();
+	
 
 	Produto cl = new Produto();
-	ProdutoDao pdao = new ProdutoDao();
-	CategoriaDao categoria = new CategoriaDao();
+	ProdutoDAO pdao = new ProdutoDAO();
+	CategoriaDAO categoria = new CategoriaDAO();
 	long time = System.currentTimeMillis();
 	Timestamp timestamp = new Timestamp(time);
 
@@ -74,20 +74,13 @@ public class CadastraProdutos extends JFrame {
 	}
 
 	public CadastraProdutos() {
-		setIconImage(Toolkit.getDefaultToolkit()
-				.getImage(CadastraProdutos.class.getResource("/br/edu/ifcvideira/imgs/logo rafa.png")));
-		setType(Type.UTILITY);
+		setIconImage(Toolkit.getDefaultToolkit().getImage(CadastraProdutos.class.getResource("/br/edu/ifcvideira/imgs/engrenagem.png")));
+
 		addWindowListener(new WindowAdapter() {
 			public void windowOpened(WindowEvent arg0) {
 				atualizarTabela();
 				limpar();
-				try {
-					categoria.BuscarTodos();
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
+		     }
 		});
 		setTitle("Cadastro Produto");
 		setResizable(false);
@@ -105,10 +98,14 @@ public class CadastraProdutos extends JFrame {
 		contentPane.add(lblDescreao);
 
 		JComboBox cbCategoria = new JComboBox();
-		cbCategoria.setModel(new DefaultComboBoxModel(new String[] { "1", "2", "3" }));
-		cbCategoria.getModel();
-		cbCategoria.setSelectedItem("oi");
+		try {
+			cbCategoria.setModel(new DefaultComboBoxModel(categoria.BuscarTodos()));
+		} catch (Exception e2) {
 
+			e2.printStackTrace();
+		}
+		cbCategoria.setToolTipText("");
+		cbCategoria.getModel();
 		cbCategoria.setBounds(79, 73, 147, 20);
 		contentPane.add(cbCategoria);
 
@@ -134,7 +131,7 @@ public class CadastraProdutos extends JFrame {
 				try {
 					cl.setDescricao(tfDescricao.getText());
 					cl.setValor(Double.parseDouble(tfvalor.getText()));
-					cl.setCategoria(cbCategoria.getSelectedIndex());
+					cl.setCategoria(cbCategoria.getSelectedIndex()+1);
 					pdao.CadastrarProduto(cl);
 
 				} catch (Exception e) {
@@ -157,8 +154,8 @@ public class CadastraProdutos extends JFrame {
 						cl.setCodigo(Integer.parseInt(textCodigo.getText()));
 						cl.setDescricao(tfDescricao.getText());
 						cl.setValor(Double.parseDouble(tfvalor.getText()));
+						cl.setCategoria(cbCategoria.getSelectedIndex()+1);
 
-						
 						pdao.AlterarProduto(cl);
 
 					} catch (Exception e1) {
@@ -206,7 +203,6 @@ public class CadastraProdutos extends JFrame {
 							options3[0]) == 0) {
 						try {
 
-							
 							cl.setCodigo(Integer.parseInt(textCodigo.getText()));
 							pdao.deletarProduto(cl);
 
@@ -236,16 +232,6 @@ public class CadastraProdutos extends JFrame {
 		lblAlimentosCadastrados.setForeground(Color.WHITE);
 		lblAlimentosCadastrados.setBounds(10, 257, 156, 20);
 		contentPane.add(lblAlimentosCadastrados);
-
-		JButton sair = new JButton("Sair");
-		sair.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				sair();
-			}
-		});
-		sair.setBackground(SystemColor.controlHighlight);
-		sair.setBounds(117, 445, 173, 39);
-		contentPane.add(sair);
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 275, 384, 159);
@@ -352,17 +338,23 @@ public class CadastraProdutos extends JFrame {
 		lblNewLabel.setIcon(new ImageIcon(CadastraProdutos.class.getResource("/br/edu/ifcvideira/imgs/fundo.png")));
 		lblNewLabel.setBounds(0, 0, 407, 484);
 		contentPane.add(lblNewLabel);
-	}
 
-	public void sair() {
-		System.exit(0);
+		JPanel panel = new JPanel();
+		panel.setBorder(new EmptyBorder(3, 3, 3, 3));
+		panel.setForeground(Color.LIGHT_GRAY);
+		panel.setBounds(10, 10, 387, 245);
+		contentPane.add(panel);
+		GroupLayout gl_panel = new GroupLayout(panel);
+		gl_panel.setHorizontalGroup(gl_panel.createParallelGroup(Alignment.LEADING).addGap(0, 387, Short.MAX_VALUE));
+		gl_panel.setVerticalGroup(gl_panel.createParallelGroup(Alignment.LEADING).addGap(0, 245, Short.MAX_VALUE));
+		panel.setLayout(gl_panel);
 	}
 
 	public void setCamposFromTabela() {
 		textCodigo.setText(String.valueOf(table.getValueAt(table.getSelectedRow(), 0)));
 		tfDescricao.setText(String.valueOf(table.getValueAt(table.getSelectedRow(), 1)));
 		tfvalor.setText(String.valueOf(table.getValueAt(table.getSelectedRow(), 2)));
-
+		
 	}
 
 	public void limpar() {
@@ -388,17 +380,5 @@ public class CadastraProdutos extends JFrame {
 		}
 	}
 
-
-public void atualizarCategoria() {
-	try {
-		categoriaObj= categoria.BuscarTodos();
-		DefaultTableModel model = (DefaultTableModel) table.getModel();
-		model.setNumRows(0);
-		for (int x = 0; x != categoriaObj.size(); x++) {
-			model.addRow((Object[]) categoriaObj.get(x));
-		}
-	} catch (Exception e) {
-		JOptionPane.showMessageDialog(null, e.getMessage());
-	}
-}
+	
 }

@@ -1,5 +1,6 @@
 package br.edu.ifcvideira.controllers.views;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.SystemColor;
@@ -7,14 +8,15 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import java.awt.Color;
+import javax.swing.JLabel;
+import javax.swing.ImageIcon;
 
 public class PrincipalView extends JFrame {
 	String nome;
@@ -23,9 +25,7 @@ public class PrincipalView extends JFrame {
 	}
 	private JPanel contentPane;
 
-	/**
-	 * Launch the application.
-	 */
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -43,10 +43,29 @@ public class PrincipalView extends JFrame {
 	 * Create the frame.
 	 */
 	public PrincipalView() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(PrincipalView.class.getResource("/br/edu/ifcvideira/imgs/engrenagem.png")));
 		setTitle("RC - Comandas");
-		setIconImage(Toolkit.getDefaultToolkit().getImage(PrincipalView.class.getResource("/br/edu/ifcvideira/imgs/logo rafa.png")));
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1400, 740);
+		setBounds(100, 100, 1374, 744);
+		
+		contentPane = new JPanel();
+		contentPane.setBackground(Color.WHITE);
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JDesktopPane desktopPane = new JDesktopPane();
+		desktopPane.setForeground(SystemColor.inactiveCaptionBorder);
+		desktopPane.setBounds(4, 682, 1362, -682);
+		contentPane.add(desktopPane);
+		desktopPane.setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setIcon(new ImageIcon(PrincipalView.class.getResource("/br/edu/ifcvideira/imgs/46505757_2195855797337455_6094008068410966016_n.png")));
+		lblNewLabel.setBounds(0, 2, 1391, 669);
+		contentPane.add(lblNewLabel);
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBackground(SystemColor.text);
@@ -79,6 +98,7 @@ public class PrincipalView extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				CadastraCategoria cc = new CadastraCategoria();
 				cc.setVisible(true);
+			
 			}
 		});
 		mnCadastrar.add(mntmCategoria);
@@ -89,16 +109,9 @@ public class PrincipalView extends JFrame {
 		
 		
 		
-		contentPane = new JPanel();
-		contentPane.setBackground(Color.WHITE);
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
 		
-		JLabel teste = new JLabel("Seja bem vindo " + nome);
-		teste.setBounds(1179, 655, 162, 14);
-		contentPane.add(teste);
-		setExtendedState(JFrame.MAXIMIZED_BOTH);
+		
+		
 	}
 }
 

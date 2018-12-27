@@ -11,18 +11,19 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import br.edu.ifcvideira.DAOs.CategoriaDao;
+import br.edu.ifcvideira.DAOs.CategoriaDAO;
 
 public class CadastraCategoria extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField tfNome;
-	CategoriaDao cat  = new CategoriaDao();
+	CategoriaDAO cat  = new CategoriaDAO();
 	/**
 	 * Launch the application.
 	 */
@@ -43,7 +44,9 @@ public class CadastraCategoria extends JFrame {
 	 * Create the frame.
 	 */
 	public CadastraCategoria() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(CadastraCategoria.class.getResource("/br/edu/ifcvideira/imgs/logo rafa.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(CadastraCategoria.class.getResource("/br/edu/ifcvideira/imgs/engrenagem.png")));
+		setTitle("Cadastro Categoria\r\n");
+		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 251, 201);
 		contentPane = new JPanel();
@@ -75,6 +78,7 @@ public class CadastraCategoria extends JFrame {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+			JOptionPane.showMessageDialog(null, tfNome.getText().toUpperCase()+" cadastrado com sucesso");
 			}
 		});
 		btnSalvar.setBounds(70, 109, 89, 23);
@@ -82,7 +86,7 @@ public class CadastraCategoria extends JFrame {
 		
 		JLabel lblNewLabel = new JLabel("New label");
 		lblNewLabel.setIcon(new ImageIcon(CadastraCategoria.class.getResource("/br/edu/ifcvideira/imgs/fundo.png")));
-		lblNewLabel.setBounds(0, 0, 235, 162);
+		lblNewLabel.setBounds(0, 0, 645, 383);
 		contentPane.add(lblNewLabel);
 	}
 }

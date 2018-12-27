@@ -17,14 +17,15 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
-import br.edu.ifcvideira.DAOs.UsuarioDao;
+import br.edu.ifcvideira.DAOs.UsuarioDAO;
 import br.edu.ifcvideira.beans.Usuario;
+import java.awt.Color;
 
 
 public class LoginView extends JFrame {
 
 	Usuario user = new Usuario();
-	UsuarioDao userDao = new UsuarioDao();
+	UsuarioDAO userDao = new UsuarioDAO();
 	PrincipalView menu = new PrincipalView();
 	CadastraUsuarioView Cadastra = new CadastraUsuarioView();
 	boolean log;
@@ -50,7 +51,7 @@ public class LoginView extends JFrame {
 	
 	public LoginView() {
 		setTitle("RC comandas");
-		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\rafac\\Desktop\\logo rafa.png"));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(LoginView.class.getResource("/br/edu/ifcvideira/imgs/engrenagem.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(500, 200, 485, 295);
 		contentPane = new JPanel();
@@ -59,18 +60,19 @@ public class LoginView extends JFrame {
 		contentPane.setLayout(null);
 		tfuser = new JTextField();
 		tfuser.setHorizontalAlignment(SwingConstants.CENTER);
-		tfuser.setBounds(184, 50, 275, 31);
+		tfuser.setBounds(88, 59, 275, 31);
 		contentPane.add(tfuser);
 		tfuser.setColumns(10);
 		
 		tfsenha = new JPasswordField();
 		tfsenha.setHorizontalAlignment(SwingConstants.CENTER);
 		tfsenha.setToolTipText("");
-		tfsenha.setBounds(184, 126, 275, 31);
+		tfsenha.setBounds(88, 126, 275, 31);
 		contentPane.add(tfsenha);
 		tfsenha.setColumns(10);
 		
-		JButton btEntrar = new JButton("Entrar");
+		JButton btEntrar = new JButton("ENTRAR");
+		btEntrar.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btEntrar.addActionListener(new ActionListener() {
 			
 
@@ -101,38 +103,41 @@ public class LoginView extends JFrame {
 				}
 			}
 		});
-		btEntrar.setBounds(218, 170, 125, 23);
+		btEntrar.setBounds(88, 168, 125, 31);
 		contentPane.add(btEntrar);
 		
-		JButton btCadastrar = new JButton("Cadastrar");
+		JButton btCadastrar = new JButton("CADASTRAR");
+		btCadastrar.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Cadastra.setVisible(true);
 				setVisible(false);
 			}
 		});
-		btCadastrar.setBounds(344, 170, 115, 23);
+		btCadastrar.setBounds(237, 168, 126, 31);
 		contentPane.add(btCadastrar);
 		
-		JLabel lblUsario = new JLabel("Us\u00FAario");
-		lblUsario.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblUsario.setBounds(295, 11, 59, 31);
+		JLabel lblUsario = new JLabel("US\u00DAARIO");
+		lblUsario.setForeground(new Color(255, 255, 255));
+		lblUsario.setFont(new Font("Tahoma", Font.BOLD, 18));
+		lblUsario.setBounds(180, 28, 97, 25);
 		contentPane.add(lblUsario);
 		
-		JLabel lblSenha = new JLabel("Senha");
-		lblSenha.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblSenha.setBounds(295, 108, 46, 14);
+		JLabel lblSenha = new JLabel("SENHA\r\n");
+		lblSenha.setFont(new Font("Tahoma", Font.BOLD, 18));
+		lblSenha.setBounds(191, 101, 97, 25);
 		contentPane.add(lblSenha);
 		
 		JLabel lblRcSoftwares = new JLabel("RC- Softwares");
 		lblRcSoftwares.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblRcSoftwares.setFont(new Font("Tahoma", Font.BOLD, 8));
-		lblRcSoftwares.setBounds(271, 231, 78, 14);
+		lblRcSoftwares.setBounds(199, 242, 78, 14);
 		contentPane.add(lblRcSoftwares);
 		
 		JLabel lblNewLabel = new JLabel("New label");
-		lblNewLabel.setIcon(new ImageIcon(LoginView.class.getResource("/br/edu/ifcvideira/imgs/rafael.jpg")));
-		lblNewLabel.setBounds(0, 0, 184, 256);
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel.setIcon(new ImageIcon(LoginView.class.getResource("/br/edu/ifcvideira/imgs/engrenagem.png")));
+		lblNewLabel.setBounds(-127, -400, 690, 883);
 		contentPane.add(lblNewLabel);
 	}
 }

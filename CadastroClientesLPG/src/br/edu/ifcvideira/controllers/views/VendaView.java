@@ -22,13 +22,14 @@ import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
-import br.edu.ifcvideira.DAOs.ComandaDao;
+import br.edu.ifcvideira.DAOs.ComandaDAO;
 import br.edu.ifcvideira.DAOs.Comanda_ClienteDAO;
-import br.edu.ifcvideira.DAOs.VendaDao;
+import br.edu.ifcvideira.DAOs.VendaDAO;
 import br.edu.ifcvideira.beans.Comanda;
 import br.edu.ifcvideira.beans.Pessoa;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.Toolkit;
 
 public class VendaView extends JFrame {
 
@@ -41,9 +42,9 @@ public class VendaView extends JFrame {
 	private JTextField tfNome;
 	private JTextField tfCpf;
 	List<Object> cliente = new ArrayList<Object>();
-	ComandaDao cdao = new ComandaDao();
+	ComandaDAO cdao = new ComandaDAO();
 	Pessoa ps = new Pessoa();
-	VendaDao vd = new VendaDao();
+	VendaDAO vd = new VendaDAO();
 	Comanda_ClienteDAO ac = new Comanda_ClienteDAO();
 
 	public static void main(String[] args) {
@@ -62,12 +63,16 @@ public class VendaView extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	
+
 	public VendaView() {
+		setTitle("Cliente");
+		setIconImage(Toolkit.getDefaultToolkit()
+				.getImage(VendaView.class.getResource("/br/edu/ifcvideira/imgs/engrenagem.png")));
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(500, 100, 450, 455);
 		contentPane = new JPanel();
+
 		contentPane.setBorder(new LineBorder(new Color(0, 0, 0)));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -79,7 +84,7 @@ public class VendaView extends JFrame {
 		panel.setBounds(0, 0, 444, 58);
 		contentPane.add(panel);
 
-		JLabel lblCadastraCliente = new JLabel("Cadastra Cliente");
+		JLabel lblCadastraCliente = new JLabel("Cliente");
 		lblCadastraCliente.setForeground(Color.BLACK);
 		lblCadastraCliente.setFont(new Font("Tahoma", Font.BOLD, 29));
 		panel.add(lblCadastraCliente);
@@ -93,30 +98,30 @@ public class VendaView extends JFrame {
 		contentPane.add(scrollPane);
 
 		table = new JTable();
-		table.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				
-			}
-		});
-		table.setModel(new DefaultTableModel(
-			new Object[][]{
-				
-			},
-			new String[] {
-				"COMANDA", "NOME", "CPF"
-			}
-		));
+
+		table.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "COMANDA", "NOME", "CPF" }));
 		table.getColumnModel().getColumn(1).setPreferredWidth(228);
 		table.getColumnModel().getColumn(2).setPreferredWidth(153);
 		scrollPane.setViewportView(table);
 		atualizarTabela();
 		JComboBox<String> cbComanda = new JComboBox<String>();
-		cbComanda.setModel(
-				new DefaultComboBoxModel<String>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "11", "12" }));
+		cbComanda.setModel(new DefaultComboBoxModel<String>(
+				new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "11", "12" }));
 		cbComanda.setBounds(10, 81, 50, 20);
 		contentPane.add(cbComanda);
 
+		table.addMouseListener(new MouseAdapter() {
+
+			public void mouseClicked(MouseEvent e) {
+				String nome = String.valueOf(table.getValueAt(table.getSelectedRow(), 1));
+				int comanda = Integer.parseInt((String) table.getValueAt(table.getSelectedRow(), 0));
+				ComandaView cv = new ComandaView();
+				cv.recebeInf(nome.toUpperCase(), comanda);
+
+				cv.setVisible(true);
+
+			}
+		});
 		tfNome = new JTextField();
 		tfNome.setBounds(80, 81, 211, 20);
 		contentPane.add(tfNome);
@@ -170,12 +175,11 @@ public class VendaView extends JFrame {
 							vd.Cadcliente(ps);
 							ps.setCodigo(vd.COD(ps));
 							ac.ComandaCliente(cm, ps);
-							
 
 						} catch (Exception e2) {
 							e2.printStackTrace();
 						}
-						
+
 						System.out.println(cliente);
 						atualizarTabela();
 					}
@@ -186,30 +190,40 @@ public class VendaView extends JFrame {
 		contentPane.add(btnSalvar);
 
 		JButton btnNewButton = new JButton("PESQUISAR CLIENTE");
+		btnNewButton.setEnabled(false);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
 		btnNewButton.setBounds(10, 112, 159, 23);
 		contentPane.add(btnNewButton);
+		contentPane.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				atualizarTabela();
+			}
+		});
 
 	}
-	
+
 	public void atualizarTabela() {
 		try {
 			cliente = cdao.buscarTodos();
 			DefaultTableModel model = (DefaultTableModel) table.getModel();
 			model.setNumRows(0);
-		for (int x=0; x!=cliente.size(); x++)
-			{
+			for (int x = 0; x != cliente.size(); x++) {
 				model.addRow((Object[]) cliente.get(x));
 			}
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 	}
+
+	public void CamposFromTabela() {
+		cm.setComanda(Integer.parseInt((String) table.getValueAt(table.getSelectedRow(), 0)));
+		ps.setNome(String.valueOf(table.getValueAt(table.getSelectedRow(), 1)));
+		ps.setCpf(String.valueOf(table.getValueAt(table.getSelectedRow(), 2)));
+
+	}
+
 }
-
-
-
-

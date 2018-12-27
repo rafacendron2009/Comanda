@@ -3,10 +3,10 @@ package br.edu.ifcvideira.beans;
 import java.sql.Timestamp;
 
 public class Pessoa {
-	private String nome;
-	private String cpf;
+	private static String nome;
+	private static  String cpf;
 	private Timestamp data;
-	private int codigo;		
+	private  int codigo;		
 
 	public int getCodigo() {
 		return codigo;

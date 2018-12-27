@@ -1,5 +1,6 @@
 package br.edu.ifcvideira.DAOs;
 
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import javax.swing.JOptionPane;
@@ -21,4 +22,15 @@ public class Comanda_ClienteDAO {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 	}
+	
+	public void deletarProdutosClientes(int comanda) throws Exception {
+		try {
+			String sql = "DELETE FROM comanda_has_cliente WHERE comanda_idcomanda ="+comanda+"";
+			PreparedStatement sqlPrep = (PreparedStatement) Conexao.conectar().prepareStatement(sql);
+			sqlPrep.execute();
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+	}
+	
 }
